@@ -292,7 +292,8 @@ platform_check_image() {
 	mir3g|\
 	r6220|\
 	ubnt-erx|\
-	ubnt-erx-sfp)
+	ubnt-erx-sfp|\
+	xiaomi,miwifi-r3)
 		nand_do_platform_check "$board" "$1"
 		return $?;
 		;;
@@ -347,7 +348,8 @@ platform_do_upgrade() {
 	mir3g|\
 	r6220|\
 	ubnt-erx|\
-	ubnt-erx-sfp)
+	ubnt-erx-sfp|\
+	xiaomi,miwifi-r3)
 		nand_do_upgrade "$ARGV"
 		;;
 	*)

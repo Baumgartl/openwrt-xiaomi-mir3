@@ -165,7 +165,8 @@ get_status_led() {
 	k2p|\
 	m3|\
 	mir3g|\
-	miwifi-nano)
+	miwifi-nano|\
+	xiaomi,miwifi-r3)
 		status_led="$boardname:blue:status"
 		;;
 	db-wrt01|\

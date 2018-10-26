@@ -487,6 +487,9 @@ wt3020-4M|\
 wt3020-8M)
 	ucidef_set_led_default "power" "power" "wt3020:blue:power" "0"
 	;;
+xiaomi,miwifi-r3)
+	ucidef_set_led_default "power" "power" "$boardname:blue:status" "1"
+	;;
 y1)
 	set_usb_led "$boardname:blue:usb"
 	ucidef_set_led_netdev "wifi" "WIFI" "$boardname:blue:wifi" "wlan1"

@@ -667,6 +667,9 @@ ramips_board_detect() {
 	*"X8")
 		name="x8"
 		;;
+	*"Xiaomi Mi Router R3")
+		name="xiaomi,miwifi-r3"
+		;;
 	*"Y1")
 		name="y1"
 		;;
