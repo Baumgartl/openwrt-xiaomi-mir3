@@ -1,0 +1,45 @@
+version: 2
+
+jobs:
+  build:
+    machine: true
+    environment:
+    - DEFAULT_USER: openwrt
+    - DEFAULT_SUDOSU: sudo su
+    steps:
+    - run:
+        name: (System) Update Linux Package Management System
+        command: sudo apt-get update
+    - run:
+        name: (System) Install Linux Base Packages and Dependencies
+        command: sudo apt-get install -y sudo time git-core subversion build-essential gcc-multilib libncurses5-dev zlib1g-dev gawk flex gettext wget unzip python
+    - run:
+        name: (System) Create Non-Root User
+        command: sudo useradd -m $DEFAULT_USER
+    - checkout:
+        path: ~$CIRCLE_PROJECT_REPONAME
+    - run:
+        name: (OpenWrt) Set Folder Permissions for Non-Root User
+        command: sudo chown $DEFAULT_USER.$DEFAULT_USER ~$CIRCLE_PROJECT_REPONAME -R
+    - run:
+        name: (OpenWrt) Feeds Update
+        command: $DEFAULT_SUDOSU $DEFAULT_USER -c "cd ~$CIRCLE_PROJECT_REPONAME && ./scripts/feeds update -a"
+    - run:
+        name: (OpenWrt) Feeds Install
+        command: $DEFAULT_SUDOSU $DEFAULT_USER -c "cd ~$CIRCLE_PROJECT_REPONAME && ./scripts/feeds install -a"
+    - run:
+        name: (OpenWrt) Setup Target Configuration for Xiaomi Mi Router 3
+        command: $DEFAULT_SUDOSU $DEFAULT_USER -c "cd ~$CIRCLE_PROJECT_REPONAME && cat .config && make defconfig && make oldconfig"
+    - run:
+        name: (OpenWrt) Build Target
+        command: $DEFAULT_SUDOSU $DEFAULT_USER -c "cd ~$CIRCLE_PROJECT_REPONAME && make world -j16"
+        no_output_timeout: 30m
+
+workflows:
+  version: 2
+  main:
+    jobs:
+    - build:
+        filters:
+          branches:
+            only: 18.06.2
